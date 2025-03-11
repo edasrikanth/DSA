@@ -80,7 +80,37 @@ int main()
 
     std::cout<<"\ncreating array using double pointer "<<std::endl;
 
+    int **DpArray;
 
+    int row = 3;
+    int col = 2;
+
+    DpArray = new int*[row];
+
+    for(int i = 0; i < row; i++)
+    {
+        DpArray[i] = new int[col];
+    }
+
+    for(int i = 0; i < row; i++)
+    {
+        for(int j = 0; j < col; j++)
+        {
+            DpArray[i][j] = i + 1;
+        }
+    }
+
+
+    for(int i = 0; i < row; i++)
+    {
+        for(int j = 0; j < col; j++)
+        {
+            std::cout << DpArray[i][j] << " ";
+        }
+
+        std::cout << "\n";
+
+    }
 
 
     return 0;

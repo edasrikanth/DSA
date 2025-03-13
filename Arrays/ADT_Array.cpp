@@ -1,99 +1,271 @@
 #include <iostream>
 
-struct Array{
+
+class Array
+{
+private:
     int *data;
-    int size;
+    int size_;
     int length;
+
+public:
+    Array(int size = 10)
+    {
+        size_ = size;
+        data = new int[size];
+        length = 0;
+    }
+
+    int getSize()
+    {
+        return size_;
+    }
+
+    int getLength()
+    {
+        return length;
+    }
+
+    void display()
+    {
+        for(int i = 0; i < length; i++)
+        {
+            std::cout << data[i]<< " ";
+        }
+    }
+
+    void insert(int ele)
+    {
+        if(length == size_)
+        {
+            resizeArray(2*size_);
+        }
+        data[length++] = ele;
+    }
+
+    void append(int ele)
+    {
+        if(length == size_)
+        {
+            resizeArray(2*size_);
+        }
+        data[length++] = ele;
+    }
+
+    void DeleteAt(int idx)
+    {
+        for(int i = idx; i < length; i++)
+        {
+            data[i] = data[i+1];
+        }
+        length--;
+    }
+
+    int getAt(int idx)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            if(i == idx)
+            {
+                return data[i];
+            }
+        }
+    }
+
+    int setAt(int idx, int ele)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            if(i == idx)
+            {
+                data[i] = ele;
+            }
+        }
+    }
+
+    int Maximum()
+    {
+        int maxi = data[0];
+        for(int i = 1; i < length; i++)
+        {
+            if(data[i] > maxi)
+            {
+                maxi = data[i];
+            }
+        }
+
+        return maxi;
+    }
+
+    int Minimum()
+    {
+        int mini = data[0];
+        for(int i = 1; i < length; i++)
+        {
+            if(data[i] < mini)
+            {
+                mini = data[i];
+            }
+        }
+
+        return mini;
+    }
+
+    void reverse()
+    {
+        for(int i = 0, j = length -1; i < j; i++, j--)
+        {
+            // swaping elements;
+            data[i] = data[i]^data[j];
+            data[j] = data[i]^data[j];
+            data[i] = data[i]^data[j];
+        }
+    }
+
+    void leftShift(int times)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            data[i] = data[i + times];
+        }
+        length = length - times;
+    }
+
+    void leftRotate(int times)
+    {
+        int *temp = new int[times];
+
+        for(int i = 0; i < times; i++)
+        {
+            temp[i] = data[i];
+        }
+
+        for(int i = 0; i < length - times; i++)
+        {
+            data[i] = data[i + times];
+        }
+
+        for(int i = 0; i < times; i++)
+        {
+            data[length - times + i] = temp[i];
+        }
+
+        delete[] temp;
+    }
+
+    bool LinearSearch(int key)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            if(data[i] == key)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    bool BinarySearch(int key)
+    {
+        int l = 0, h = length - 1;
+
+        while(l <= h)
+        {
+            int mid = (l + h)/2;
+
+            if(data[mid] == key)
+            {
+                return true;
+            }
+            else if(key > data[mid])
+            {
+                l = mid + 1;
+            }
+            else
+            {
+                h = mid - 1;
+            }
+        }
+    }
+
+    void resizeArray(int size)
+    {
+        int *newSizePtr = new int[size];
+
+        for(int i = 0; i < length; i++)
+        {
+            newSizePtr[i] = data[i];
+        }
+        delete[] data;
+        size_ = size;
+        data = newSizePtr;
+    }
+
+    ~Array()
+    {
+        delete[] data;
+    }
 };
 
-void InsertingElements(Array& arr)
-{
-    for(int i = 0; i < arr.size; i++)
-    {
-        arr.data[i] = i+1;
-    }
-    arr.length = arr.size;
-}
 
-void Display(Array& arr)
-{
-    for(int i = 0; i < arr.length; i++)
-    {
-        std::cout<<arr.data[i] <<" ";
-    }
-    std::cout <<std::endl;
-}
-void Append(Array& arr, int ele)
-{
-    if(arr.size <= arr.length)
-    {
-        int *newData = new int[arr.size + 1];
 
-        for(int i = 0; i < arr.length; i++)
-        {
-            newData[i] = arr.data[i];
-        }
-        delete[] arr.data;
-        arr.data = newData;
-        arr.size = arr.size + 1;
-    }
-
-    arr.data[arr.length++] = ele;
-
-}
 
 int main()
 {
-    std::cout<<"Hello All..."<< std::endl;
 
-    Array arr;
+    std::cout << "Hello all..."<<std::endl;
 
-    arr.size = 10;
-    arr.length = 0;
-    arr.data = new int[arr.size];
+    Array arr(5);
 
-    std::cout<<"Inserting elements in array"<<std::endl;
-    InsertingElements(arr);
+    arr.insert(1);
+    arr.insert(2);
+    arr.insert(3);
+    arr.insert(4);
+    arr.insert(5);
+    arr.insert(6);
 
-    std::cout<<"Printing elemnets in array"<<std::endl;
-    Display(arr);
+    arr.display();
+    std::cout <<"\n";
 
-    std::cout<<"Appending element in array"<<std::endl;
-    Append(arr, 23);
-    Display(arr);
+    arr.DeleteAt(3);
+    arr.display();
 
-    /*std::cout<<"Insert element at given index in array"<<std::endl;
-    Insert(arr, 3, 25);
+    std::cout<<"\nvalue at idx 2 is :"<<arr.getAt(2) << std::endl;
 
-    std::cout<<"Deleting element at given index in array"<<std::endl;
-    Delete(arr, 5);
+    arr.setAt(2, 10);
+    arr.display();
+    
+    std::cout<<"\nMaximum element in array is : "<< arr.Maximum()<<std::endl;
 
-    std::cout<<"getting an elementat given index in array"<<std::endl;
-    Get(arr, 7);
+    std::cout<<"\nMinimum element in array is : "<< arr.Minimum()<<std::endl;
 
-    std::cout<<"setting/updating an element at given index in array"<<std::endl;
-    Set(arr, 8, 26);
+    arr.reverse();
+    arr.display();
 
-    std::cout<<"Getting Maximum element in array"<<std::endl;
-    Maximum(arr);
+    std::cout <<"\n";
+    arr.leftShift(2);
+    arr.display();
 
-    std::cout<<"Getting Minimum element in array"<<std::endl;
-    Minimum(arr);
+    std::cout <<"\n";
+    arr.append(5);
+    arr.append(6);
+    arr.append(7);
+    arr.display();
 
-    std::cout<<"Reversing an array"<<std::endl;
-    Reverse(arr);
+    std::cout <<"\n";
+    arr.leftRotate(2);
+    arr.display();
+    arr.DeleteAt(arr.getLength() - 1);
+    std::cout <<"\n";
+    arr.display();
 
-    std::cout<<"Left Shifting of array by given times"<<std::endl;
-    LeftShif(arr, 1);
+    std::cout<<"\nLinear Search of element in array result is :"<<std::boolalpha <<arr.LinearSearch(10)<<std::endl;
 
-    std::cout<<"Left Roatate of array  y given times"<<std::endl;
-    LeftRotate(arr, 1);
+    // note:: for binary search. make sure array is sorted
+    std::cout<<"\nBinary Search of element in array result is :"<<std::boolalpha <<arr.BinarySearch(10)<<std::endl;
 
-    std::cout<<"Linear search for given element in array"<<std::endl;
-    LinearSearch(arr, 10);
 
-    std::cout<<"Binary search for given element in array"<<std::endl;
-    BinarySearch(arr, 8);*/
+    std::cout <<"\n"<<arr.getLength() << " "<< arr.getSize();
 
     return 0;
 }

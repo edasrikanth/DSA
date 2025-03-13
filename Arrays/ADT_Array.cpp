@@ -186,6 +186,7 @@ public:
                 h = mid - 1;
             }
         }
+        return false;
     }
 
     void resizeArray(int size)

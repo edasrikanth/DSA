@@ -56,7 +56,7 @@ int main()
     std::cout << "Is Array Sorted ?"<<std::boolalpha <<arr.IsSorted()<<std::endl;
 
 
-    std::cout <<"\n"<<arr.getLength() << " "<< arr.getSize()
+    std::cout <<"\n"<<arr.getLength() << " "<< arr.getSize();
 
 
 

@@ -37,13 +37,4 @@ class Array
 };
 
 
-
-
-
-
-
-
-
-
-
 #endif // MYCLASS_H
